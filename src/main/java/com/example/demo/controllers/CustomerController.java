@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.Customer;
+import com.example.demo.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +25,14 @@ public class CustomerController {
             new Customer(4, "kats", "Moay", "1234", "asdf4@gmail.com")
     ));
 
+    @Autowired
+    CustomerService customerService;
+
     //metodo como endpoint
     @GetMapping
     public ResponseEntity<List<Customer>> getCustomers() {
-        //Codigo de respuesta 200 -
-        return ResponseEntity.ok(customers);
+        //Codigo de respuesta 200
+        return ResponseEntity.ok(customerService.findAllCustomers());
     }
 
     @GetMapping("/{id}")
