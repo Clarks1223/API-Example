@@ -1,4 +1,5 @@
 package com.example.demo.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.NonNull;
@@ -10,13 +11,13 @@ import org.springframework.lang.NonNull;
 
 //mapear la clase a la BD
 @Entity
-@Table(name="locals")
+@Table(name = "locals")
 
 public class Customer {
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @NonNull
     private String name;
     @NonNull

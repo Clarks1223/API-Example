@@ -36,14 +36,15 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomer(@PathVariable int id) {
+    public ResponseEntity<?> getCustomer(@PathVariable long id) {
         //for each
         for (Customer customer : customers) {
             if (customer.getId() == id) {
                 //Codigo de respuesta 200 -
-                return ResponseEntity.ok(customer);
+                return ResponseEntity.ok(customerService.findCustomerById(id));
             }
         }
+
         //Codigo de respuesta 404 - usuario no encontrado
         return ResponseEntity.status(HttpStatus.NOT_FOUND).
                 body("Customer not found, please check the id: " + id);
@@ -51,13 +52,12 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<?> postCustomer(@RequestBody Customer customer) {
-        customers.add(customer);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(customer.getId()).toUri();
         //Codigo de respuesta 201 - muestra la URI con la que se puede consumir el recurso y el objeto creado
-        return ResponseEntity.created(location).body(customer);
+        return ResponseEntity.created(location).body(customerService.saveCustomer(customer));
     }
 
     @PutMapping("/{id}")
